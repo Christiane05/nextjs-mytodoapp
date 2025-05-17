@@ -1,6 +1,7 @@
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 
 
 @layer base {
@@ -112,9 +113,9 @@
 
 @layer base {
   * {
-    border-color: hsl(214.3 31.8% 91.4%); /* Utiliser directement la couleur */
-    outline-color: hsl(222.2 84% 4.9% / 0.5); /* Pareil pour outline */
-  }  
+    border-color: hsl(var(--border));
+    outline-color: hsl(var(--ring) / 0.5);
+  }
   body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
