@@ -1,51 +1,42 @@
 import { db } from "@vercel/postgres";
-import {Task} from "../../../../lib/type";
+import { NextRequest } from "next/server";
 
-   export async function PATCH(req: Request, { params }: { params: { id: string } }) {
-    console.log("Début du PATCH");
-    const { id } = params;
+export async function PATCH(req: NextRequest, context: any) {
+  try {
+    // Essaie de récupérer l'id dans params, sinon via nextUrl
+    let id = context?.params?.id;
+
+    if (!id) {
+      // fallback : récupérer depuis l'URL
+      const url = new URL(req.url);
+      id = url.pathname.split("/").pop();
+      console.log("Fallback ID extrait depuis l'URL :", id);
+    }
+
+    if (!id) {
+      console.error("❌ ID introuvable dans la requête");
+      return new Response(JSON.stringify({ error: "ID non fourni" }), { status: 400 });
+    }
+
     const { status } = await req.json();
-
-    if (!id || typeof status !== "boolean") {
-        console.log("Erreur : données manquantes ou invalides.");
-        return new Response(
-            JSON.stringify({ error: "ID ou status invalides" }),
-            { status: 400 }
-        );
+    if (typeof status !== "boolean") {
+      return new Response(JSON.stringify({ error: "Status invalide" }), { status: 400 });
     }
 
-    const client = await db.connect(); // 🔐 Ouvre la connexion 
+    const client = await db.connect();
     try {
-        console.log("Connexion réussie");
-        const setStatus = await client.sql`
-            UPDATE tasks
-            SET status = ${status}
-            WHERE id = ${id};
-            RETURNING *;
-        `;
-
-        if (setStatus.rowCount === 0) {
-            console.log("Tâche non trouvée avec l'ID:", id);
-            return new Response(
-                JSON.stringify({ error: "Tâche non trouvée" }),
-                { status: 404 }
-            );
-        }
-
-        console.log("Statut mis à jour avec succès pour la tâche :", id);
-        return new Response(
-            //JSON.stringify({ success: true, id, status }),
-            JSON.stringify({ success: true, task: setStatus.rows[0] }),
-            { status: 200 }
-        );
-    } catch (error) {
-        console.error("Erreur dans PATCH /api/tasks/[id]:", error);
-        return new Response(
-            JSON.stringify({ error: error instanceof Error ? error.message : "Erreur inconnue" }),
-            { status: 500 }
-        );
+      const result = await client.sql`
+        UPDATE tasks SET status = ${status} WHERE id = ${id} RETURNING *;
+      `;
+      if (result.rowCount === 0) {
+        return new Response(JSON.stringify({ error: "Tâche non trouvée" }), { status: 404 });
+      }
+      return new Response(JSON.stringify({ success: true, task: result.rows[0] }), { status: 200 });
     } finally {
-        client.release(); // 🔓 Libère la connexion même en cas d’erreur
-        console.log("Connexion libérée");
+      client.release();
     }
+  } catch (err) {
+    console.error("Erreur dans PATCH:", err);
+    return new Response(JSON.stringify({ error: "Erreur serveur" }), { status: 500 });
+  }
 }

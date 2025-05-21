@@ -15,10 +15,14 @@ import './globals.css'; // Vérifie que c'est bien ce fichier où tu as les dire
 
 
 export default function Home() {
+  
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <div>
        <Button>Click me</Button>
+       
+      
+
        <div className="bg-blue-500 text-white text-3xl p-8">
   Ceci est un test de Tailwind CSS !
       </div>

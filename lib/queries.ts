@@ -36,6 +36,7 @@ export async function getTasks() {
   export async function updateStatus (id : string , newStatus : boolean){
     console.log("📡 updateStatus appelée avec", id, newStatus); // Ajoute ceci
     const res = await fetch (`/api/tasks/${id}` , {
+    //const res = await fetch (`/api/tasks/1234` , {
       method : "PATCH" ,
       headers : { "Content-Type" : "application/json" } , 
       body : JSON.stringify({status: newStatus})

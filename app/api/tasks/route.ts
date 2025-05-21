@@ -40,6 +40,7 @@ export async function POST(req: Request) {
 //Supprimer les tâches = Puis queries = puis page.tsx de app/tasks
 export async function DELETE(req: Request) {
   const client = await db.connect();
+  console.log("Tafiditra CONNEXION db DELETE ");
   try {
     const requete: Task = await req.json();
     const id = requete.id;
