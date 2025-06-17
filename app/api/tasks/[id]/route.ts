@@ -1,42 +1,51 @@
 import { db } from "@vercel/postgres";
+//import { connectToDB } from "@/lib/db";
 import { NextRequest } from "next/server";
 
-export async function PATCH(req: NextRequest, context: any) {
+// PATCH /api/tasks/:id → mise à jour du statut d'une tâche
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    // Essaie de récupérer l'id dans params, sinon via nextUrl
-    let id = context?.params?.id;
-
-    if (!id) {
-      // fallback : récupérer depuis l'URL
-      const url = new URL(req.url);
-      id = url.pathname.split("/").pop();
-      console.log("Fallback ID extrait depuis l'URL :", id);
-    }
-
-    if (!id) {
-      console.error("❌ ID introuvable dans la requête");
-      return new Response(JSON.stringify({ error: "ID non fourni" }), { status: 400 });
-    }
+    const { id } = await params; // ✅ Works in Next.js 15
+    console.log("🔧 PATCH reçu. ID =", id);
 
     const { status } = await req.json();
-    if (typeof status !== "boolean") {
-      return new Response(JSON.stringify({ error: "Status invalide" }), { status: 400 });
-    }
+    console.log("✅ Status reçu :", status);
 
+    // Connexion manuelle à la base
     const client = await db.connect();
+
     try {
-      const result = await client.sql`
-        UPDATE tasks SET status = ${status} WHERE id = ${id} RETURNING *;
-      `;
-      if (result.rowCount === 0) {
-        return new Response(JSON.stringify({ error: "Tâche non trouvée" }), { status: 404 });
+      console.log("AVANT connexion db PATCH");
+      const result = await client.sql `
+      UPDATE tasks
+      SET status = ${status}
+      WHERE id = ${id}
+      RETURNING *;
+    `;
+     
+     console.log("APRES connexion db PATCH");
+      if (result.rows.length === 0) {
+        return new Response("Tâche non trouvée", { status: 404 });
       }
-      return new Response(JSON.stringify({ success: true, task: result.rows[0] }), { status: 200 });
-    } finally {
-      client.release();
+
+      console.log("✅ Statut mis à jour :", result.rows[0]);
+      return new Response(JSON.stringify(result.rows[0]), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+      return Response.json({ success: true });
     }
-  } catch (err) {
-    console.error("Erreur dans PATCH:", err);
-    return new Response(JSON.stringify({ error: "Erreur serveur" }), { status: 500 });
+     catch(error) {
+      console.error("Connexion db de PATCH a ECHOUE");
+      return new Response("Erreur serveur", { status: 500 });
+    }
+    finally {
+    client.release();
+    console.log("Connexion PATCH libérée");
+  }
+    
+  } catch (error) {
+    console.error("❌ Erreur dans PATCH /api/tasks/[id]:", error);
+    return new Response("Erreur serveur", { status: 500 });
   }
 }

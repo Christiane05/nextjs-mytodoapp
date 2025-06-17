@@ -1,81 +1,21 @@
-import Image from "next/image";
-import TasksPage from "./tasks/page";
-import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { Listcheckbox } from "@/components/ui/listcheckbox"
+//"use client"
 import './globals.css'; // Vérifie que c'est bien ce fichier où tu as les directives Tailwind
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "./api/auth/[...nextauth]/route";
+import { redirect } from "next/navigation";
+import Dashboard from "@/components/ui/dashboard";
 
 
 
-export default function Home() {
+export default async function Home() {
+  //const [refreshStats, setRefreshStats] = useState(0);
+
+   const session = await getServerSession(authOptions);
+
+  if (!session) {
+     // Redirige vers la page de login si pas connecté
+    redirect("/login");
+  }
   
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <div>
-       <Button>Click me</Button>
-       
-      
-
-       <div className="bg-blue-500 text-white text-3xl p-8">
-  Ceci est un test de Tailwind CSS !
-      </div>
-      <div className="bg-red-500 text-white p-4">Test Tailwind</div>
-      </div>
-      <TasksPage/>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+  return <Dashboard session={session} />;
 }

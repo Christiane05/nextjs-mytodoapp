@@ -5,7 +5,8 @@ import { db } from "@vercel/postgres";
 export async function GET() {
   const client = await db.connect();
   try {
-    const tasks = await client.sql`SELECT * FROM tasks;`;
+    const tasks = await client.sql`SELECT * FROM tasks
+    ORDER BY position DESC;`; 
     return Response.json({ tasks: tasks.rows });
   } catch (error) {
     return Response.json({ error: error instanceof Error ? error.message : "Erreur inconnue" }, { status: 500 });
@@ -22,9 +23,13 @@ export async function POST(req: Request) {
   try {
     const requete: Task = await req.json();
     const { user_id, description } = requete;
+
+    const { rows } = await client.sql`SELECT MAX(position) as max FROM tasks`; //Ordonne la position de la tâche sur la colonne position
+    const lastPosition = rows[0].max ?? 0; // row.max = valeur max et si valeur est nulle donc on met 0 
+
     const newTask = await client.sql`
-      INSERT INTO tasks (user_id, description, status, created_at)
-      VALUES (${user_id}, ${description}, false, NOW())
+      INSERT INTO tasks (user_id, description, status, created_at, position)
+      VALUES (${user_id}, ${description}, false, NOW(), ${lastPosition + 1})
       RETURNING *
     `;
     return Response.json({ newTask: newTask.rows[0] });
@@ -55,3 +60,4 @@ export async function DELETE(req: Request) {
     console.log("Connexion DELETE libérée");
   }
 }
+

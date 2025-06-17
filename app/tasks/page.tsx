@@ -1,7 +1,7 @@
 "use client";
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { useTasks } from "@/lib/hook/useTasks";
-import { addTask, deleteTask, getTasks, updateStatus } from "@/lib/queries";
+import { addTask, deleteTask, getTasks, updateStatus, editTask } from "@/lib/queries";
 import { Task } from "@/lib/type";
 import Toggle from "@/components/ui/Toggle";
 import {
@@ -10,20 +10,27 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button"
-import { Listcheckbox } from "@/components/ui/listcheckbox";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
 import {StatsTest} from "@/components/ui/stats";
 //import Toggle from "@/components/ui/Toggle";
 import '../globals.css';
+import TestDragAndDrop from "@/components/ui/testdraganddrop";
+import { Plus } from "lucide-react";
 
-export default function TasksPage() {
+export default function TasksPage({ session }: { session: any }) {
   const [tasks, setTasks] = useState<Task[]>([]); // Liste des tâches
-  const [description, setDescription] = useState("");
-  //const tasks: Task[] = useTasks();
+
+  //Voici un état local pour la tache en cours de modification 
+  const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
+  const [description, setDescription] = useState<string>(""); 
+  const [newDescription, setNewDescription] = useState<string>("");  // Add this state for editing tasks
 
   const [refreshStats, setRefreshStats] = useState(0);
-  //const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const [refreshPosition, setRefreshPosition] = useState(0);
+  const [refreshDescription, setRefreshDescription] = useState(0);
+
+  
+
 
   const handleStatusChange = async (id: string, newStatus: boolean) => {
   try {
@@ -33,6 +40,7 @@ export default function TasksPage() {
     setTasks(updatedTasks); // MAJ visuelle
     console.log("🔁 Mise à jour AVANT UPDATESTATUS de la BDD pour la tâche", id, "avec status", newStatus);
     try {
+        console.log ("DANS TRY updateStatus");
         await updateStatus(id, newStatus); // MAJ BDD
     } catch (err) {
         console.error("🔥 ERREUR DANS updateStatus:", err);
@@ -44,11 +52,32 @@ export default function TasksPage() {
   }
 };
 
+//Modification des tâches 
+ const handleEditTask = async (id: string, newDescription: string) => {
+  try {
+    const updatedTasks = tasks.map((task) =>
+      task.id === id ? { ...task, description: newDescription } : task
+    );
+    setTasks(updatedTasks); // MAJ visuelle dans la liste
+    console.log("🔁 Mise à jour AVANT BDD", id, newDescription);
+    try {
+        console.log ("DANS TRY UPDATEEDITTASK");
+        await editTask(id, newDescription); // MAJ BDD
+    } catch (err) {
+        console.error("🔥 ERREUR DANS updateStatus:", err);
+    }
+    console.log("🔁 Mise à jour APRES UPDATEEDITTASK de la BDD pour la tâche", id, "avec status", newDescription);
+     setRefreshDescription(prev => prev + 1); // MAJ des stats
+  } catch (e) {
+    console.error("Erreur update status", e)
+  }
+};
+
   // Charger les tâches au démarrage de la page
   useEffect(() => {
     getTasks().then(setTasks);
     console.log("Ceci est tasks dans useEffect: "+tasks);
-  }, []);
+  }, [refreshPosition]);
 
   
   async function handleSubmit(e: React.FormEvent) {
@@ -64,6 +93,10 @@ export default function TasksPage() {
       console.log("Ceci est tasks: "+tasks+ "ceci est la description : "+description); //Object Object
       console.log("Ceci est la description de nouvelle task: "+newTask.description);
       console.log("Ceci est le status de nouvelle task: "+newTask.status);
+     
+      setRefreshPosition(prev => prev + 1);  // Forcer le reload de position des taches
+      setRefreshStats((prev) => prev + 1); // ✅ actualise les stats
+
     } catch (error) {
       console.error("Erreur lors de l'ajout :", error);
     }
@@ -73,88 +106,67 @@ export default function TasksPage() {
     try {
       await deleteTask(id);
       setTasks((prev) => prev.filter((task) => task.id !== id));
+      setRefreshPosition(prev => prev + 1);  // Forcer le reload de position des taches
+      setRefreshStats((prev) => prev + 1); // ✅ actualise les stats
+
     } catch (error){
       console.error("Erreur lors de la suppression : ",error);
     }
   }
 
-  // Fonction pour mettre à jour le statut d'une tâche
-   const handleToggleChange = (id : string, newStatus : boolean) => {
-    const updatedTasks = tasks.map((task) =>
-      task.id === id ? { ...task, status: newStatus } : task
-    );
-    setTasks(updatedTasks); // MAJ visuelle
-    try {
-      updateStatus(id, newStatus); // MAJ BDD
-      //setRefreshStats(prev => prev + 1); // 🔁 MAJ des stats
-      setRefreshStats(prev => {
-        console.log("🌀 Refresh trigger before update:", prev);
-        return prev + 1;
-      });
-      //console.log("📌 refreshTrigger :", refreshTrigger )
-      console.log("📌 refreshTrigger :", refreshStats )
-    } catch (error) {
-      console.error("Erreur lors de la mise à jour du statut :", error);
-    }
-  };
-
   return (
-    <div>
-      {/* Formulaire d'ajout */}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Nouvelle tâche..."
-          required
-        />
-        {/*<button type="submit">➕ Ajouter</button>*/}
-        <Button variant="outline">➕</Button>
-
-        
-      </form>
+    <div className=" flex flex-col md:flex-row">
+      <div className="flex-1 border-b-2">
+        <div className="flex">
+          <div className="flex items-center gap-2 m-4 " >
+            {/* Formulaire d'ajout */}
+            <form onSubmit={handleSubmit} className="flex items-center gap-2 flex-grow max-w-[70%]">
+              <input
+                type="text"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Nouvelle tâche"
+                required
+                className = "flex-grow p-2 border border-border rounded-xl bg-card text-card-foreground shadow w-80"
+              />
+              {/*<button type="submit">➕ Ajouter</button>*/}
+            </form>
+            <button onClick={() => {handleSubmit}}>
+                  <Plus className="w-6 h-6 text-blue-500" />
+            </button>
+          </div>
+         
+          
+        </div>
+        <div className="flex">
+          <div className="flex-1 m-4">
+                <Card className="border border-border rounded-xl bg-card text-card-foreground shadow ">
+                  <CardHeader>
+                    <CardTitle>Bon, au boulot ! </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <TestDragAndDrop
+                      tasks={tasks}
+                      setTasks={setTasks}
+                      handleStatusChange={handleStatusChange}
+                      handleDelete={handleDelete}
+                      setRefreshPosition={setRefreshPosition}
+                      handleEditTask={handleEditTask}
+                      editingTaskId={editingTaskId}
+                      setEditingTaskId={setEditingTaskId}
+                      newDescription={newDescription}
+                      setNewDescription={setNewDescription}
+                    />
+                  </CardContent>
+                </Card>
+          </div>
+            <div className ="flex-1 m-4 border border-border rounded-xl bg-card text-card-foreground shadow">
+              <StatsTest key={refreshStats} refreshTrigger={refreshStats}/>
+            </div>
+        </div>
+       
+      </div>
       
-
-      {/* Affichage des tâches */}
-      <Card className="w-96">
-          <CardHeader>
-            <CardTitle>Liste des tâches</CardTitle>
-          </CardHeader>
-          <CardContent>
-              <div className="grid gap-1.5 leading-none">
-                <table className="table-auto border border-gray-400 font leading-none tracking-tight">
-                      <tbody>
-                            {tasks.map((task) => (
-                            
-                            <tr key={task.id}>
-                            <td className="table-auto border border-gray-400 w-2/4 p-2"> 
-                              {task.description} - {task.status ? "✅" : "❌"} 
-                            </td>
-                            <td className="table-auto border border-gray-400 w-1/4 p-2">  
-                              <Toggle
-                                status={task.status}
-                                onToggleChange={(newStatus: boolean) => {
-                                 // handleToggleChange(task.id, newStatus);
-                                  handleStatusChange(task.id, newStatus);
-                                 //  (task.id, newStatus);
-                                }}
-                              />
-                            </td>
-                            <td className="table-auto border border-gray-400 w-1/4 p-2">
-                              <button onClick={() => handleDelete(task.id)} style={{ marginLeft: "10px" }}>
-                                  🗑️   
-                              </button>
-                            </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
-              </div>
-          </CardContent>
-      </Card>
-      {/*<StatsTest key={refreshStats} refreshTrigger={refreshStats}/>*/}
-      <StatsTest key={refreshStats} refreshTrigger={refreshStats} />
     </div>
     
   );

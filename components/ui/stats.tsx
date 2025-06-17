@@ -1,6 +1,9 @@
 "use client"
 
 import * as React from "react"
+import ClientOnly from "@/components/ui/clientonly"; 
+import PieChart from "@/horizon-tailwind-react/src/components/charts/PieChart"; 
+import {pieChartData, pieChartOptions} from "@/horizon-tailwind-react/src/variables/charts";
 
 type Stats = {
   done: number
@@ -36,17 +39,27 @@ const StatsTest = React.forwardRef<HTMLDivElement, StatsTestProps>(
     return (
       <div
         ref={ref}
-        className={`p-4 rounded bg-gray-100 text-sm ${className}`}
+        className={`p-4 rounded  text-sm ${className}`}
         {...props}
       >
-        {stats ? (
-          <div>
-            <p>Tâches effectuées : {stats.done}</p>
-            <p>Tâches non effectuées : {stats.undone}</p>
-          </div>
-        ) : (
-          <p>Chargement des stats...</p>
-        )}
+        <ClientOnly>
+             {!stats ? (
+               <p>Chargement du graphique...</p>
+               ) : (
+               <PieChart
+                    series={[stats.done, stats.undone]}
+                    options={pieChartOptions}
+                />
+              )}
+          </ClientOnly>
+          {stats ? (
+            <div>
+              <p>Tâches effectuées : {stats.done}</p>
+              <p>Tâches non effectuées : {stats.undone}</p>
+            </div>
+          ) : (
+            <p>Chargement des stats...</p>
+          )}
       </div>
     )
   }

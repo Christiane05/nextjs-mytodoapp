@@ -44,7 +44,9 @@ export async function getTasks() {
    
     console.log ("Tafiditra ato am updateSatus "); //OK
     if (!res.ok) throw new Error("Erreur lors du changement de status"); //ET ça va ici, donc rien n'a été affecté au res
-    return res.json();
+    return (
+      console.log("res.ok est REUSSI"),
+      res.json())
   }
   
 // 2. Appel statistiques : compter tâches faites / non faites
@@ -55,3 +57,36 @@ export async function getTaskStats() {
   console.log("GET TASK STAAAATS : "+data);
   return data; // { done: number, undone: number }
 }
+
+export async function updateTaskPositions(tasks: Task[]) {
+  const res = await fetch("/api/tasks/reorder", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ tasks }),
+  });
+
+  if (!res.ok) {
+    throw new Error("Erreur lors de la mise à jour des positions");
+  }
+
+  return res.json();
+}
+
+//Modifier une tache 
+export async function editTask (id : string , description : string): Promise<Task> {
+    console.log("📡 editTask appelée avec", id, description); // Ajoute ceci
+    const res = await fetch (`/api/tasks/edit/${id}` , {
+    //const res = await fetch (`/api/tasks/1234` , {
+      method : "PATCH" ,
+      headers : { "Content-Type" : "application/json" } , 
+      body : JSON.stringify({description: description})
+    });
+   
+    console.log ("Tafiditra ato am editTask "); //OK
+    if (!res.ok) throw new Error("Erreur lors de modification de la tâche"); //ET ça va ici, donc rien n'a été affecté au res
+    return (
+      console.log("res.ok est REUSSI"),
+      res.json())
+  }
