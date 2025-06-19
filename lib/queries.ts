@@ -7,21 +7,20 @@ export async function getTasks() {
     return data.tasks;
   }
 
-  export async function addTask(user_id : string, description : string) : Promise<Task> {
+  export async function addTask(description : string) : Promise<Task> {
     const  res = await fetch("/api/tasks" , {// ici est le lien avec la logique de la requete
         method : "POST" , //requette http qui va envoyer les infos dans serveur
         headers : { "Content-Type" : "application/json" } , //convertis les données à envoiyer en json 
-        body : JSON.stringify({user_id , description}) //transforme l'objet en chaîne JSON car fetch n'envoie que du texte
+        body : JSON.stringify({description}) //transforme l'objet en chaîne JSON car fetch n'envoie que du texte
       } 
     );
     if (!res.ok) throw new Error("Erreur d'ajout de tâche")
     // Récupère les données retournées par l'API (c'est la tâche ajoutée)
     const data = await res.json();
-    console.log("Dans addTask queries, pour voir type de data:", data); //Ici c'est bien type Task  
     // La tâche ajoutée se trouve dans data.task
-    console.log("Dans addTask queries, pour voir data.task: ", data.newTask);
     return data.newTask;
   }
+
 
   export async function deleteTask (id : string) {
     const res = await fetch ("/api/tasks" , {
@@ -34,7 +33,6 @@ export async function getTasks() {
   }
 
   export async function updateStatus (id : string , newStatus : boolean){
-    console.log("📡 updateStatus appelée avec", id, newStatus); // Ajoute ceci
     const res = await fetch (`/api/tasks/${id}` , {
     //const res = await fetch (`/api/tasks/1234` , {
       method : "PATCH" ,
@@ -42,10 +40,8 @@ export async function getTasks() {
       body : JSON.stringify({status: newStatus})
     });
    
-    console.log ("Tafiditra ato am updateSatus "); //OK
     if (!res.ok) throw new Error("Erreur lors du changement de status"); //ET ça va ici, donc rien n'a été affecté au res
     return (
-      console.log("res.ok est REUSSI"),
       res.json())
   }
   
@@ -54,7 +50,6 @@ export async function getTaskStats() {
   const res = await fetch("/api/tasks/stats");
   if (!res.ok) throw new Error("Erreur lors de la récupération des stats");
   const data = await res.json();
-  console.log("GET TASK STAAAATS : "+data);
   return data; // { done: number, undone: number }
 }
 
@@ -78,15 +73,12 @@ export async function updateTaskPositions(tasks: Task[]) {
 export async function editTask (id : string , description : string): Promise<Task> {
     console.log("📡 editTask appelée avec", id, description); // Ajoute ceci
     const res = await fetch (`/api/tasks/edit/${id}` , {
-    //const res = await fetch (`/api/tasks/1234` , {
       method : "PATCH" ,
       headers : { "Content-Type" : "application/json" } , 
       body : JSON.stringify({description: description})
     });
    
-    console.log ("Tafiditra ato am editTask "); //OK
     if (!res.ok) throw new Error("Erreur lors de modification de la tâche"); //ET ça va ici, donc rien n'a été affecté au res
     return (
-      console.log("res.ok est REUSSI"),
       res.json())
   }

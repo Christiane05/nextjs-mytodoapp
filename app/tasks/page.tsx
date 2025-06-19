@@ -1,18 +1,14 @@
 "use client";
 import { SetStateAction, useEffect, useState } from "react";
-import { useTasks } from "@/lib/hook/useTasks";
 import { addTask, deleteTask, getTasks, updateStatus, editTask } from "@/lib/queries";
 import { Task } from "@/lib/type";
-import Toggle from "@/components/ui/Toggle";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import {StatsTest} from "@/components/ui/stats";
-//import Toggle from "@/components/ui/Toggle";
 import '../globals.css';
 import TestDragAndDrop from "@/components/ui/testdraganddrop";
 import { Plus } from "lucide-react";
@@ -29,7 +25,6 @@ export default function TasksPage({ session }: { session: any }) {
   const [refreshPosition, setRefreshPosition] = useState(0);
   const [refreshDescription, setRefreshDescription] = useState(0);
 
-  
 
 
   const handleStatusChange = async (id: string, newStatus: boolean) => {
@@ -38,14 +33,11 @@ export default function TasksPage({ session }: { session: any }) {
       task.id === id ? { ...task, status: newStatus } : task
     );
     setTasks(updatedTasks); // MAJ visuelle
-    console.log("🔁 Mise à jour AVANT UPDATESTATUS de la BDD pour la tâche", id, "avec status", newStatus);
     try {
-        console.log ("DANS TRY updateStatus");
         await updateStatus(id, newStatus); // MAJ BDD
     } catch (err) {
         console.error("🔥 ERREUR DANS updateStatus:", err);
     }
-    console.log("🔁 Mise à jour APRES UPDATESTATUS de la BDD pour la tâche", id, "avec status", newStatus);
     setRefreshStats(prev => prev + 1); // MAJ des stats
   } catch (e) {
     console.error("Erreur update status", e)
@@ -59,41 +51,33 @@ export default function TasksPage({ session }: { session: any }) {
       task.id === id ? { ...task, description: newDescription } : task
     );
     setTasks(updatedTasks); // MAJ visuelle dans la liste
-    console.log("🔁 Mise à jour AVANT BDD", id, newDescription);
     try {
-        console.log ("DANS TRY UPDATEEDITTASK");
         await editTask(id, newDescription); // MAJ BDD
     } catch (err) {
         console.error("🔥 ERREUR DANS updateStatus:", err);
     }
-    console.log("🔁 Mise à jour APRES UPDATEEDITTASK de la BDD pour la tâche", id, "avec status", newDescription);
      setRefreshDescription(prev => prev + 1); // MAJ des stats
   } catch (e) {
     console.error("Erreur update status", e)
   }
 };
 
-  // Charger les tâches au démarrage de la page
+   // Charger les tâches au démarrage de la page
   useEffect(() => {
     getTasks().then(setTasks);
     console.log("Ceci est tasks dans useEffect: "+tasks);
   }, [refreshPosition]);
-
+  
+ 
   
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     
     try {
-      const newTask : Task = await addTask( "3fadb5e6-414b-4d08-9df0-09d45cc9c829", description) ; // Remplace "1" par un vrai user_id plus tard
-      console.log("Ceci est newTask après addTask : "+newTask+ "ceci est la description : "+description); //undefined
+      const newTask : Task = await addTask( description) ; // Remplace "1" par un vrai user_id plus tard
       setDescription(""); // Réinitialise le champ après ajout
       // Mettre à jour la liste des tâches immédiatement
       setTasks((prevTasks) => [...prevTasks, newTask]);
-      console.log("Ceci est newTask après permutation : "+newTask+ "ceci est la description : "+description); //undefined
-      console.log("Ceci est tasks: "+tasks+ "ceci est la description : "+description); //Object Object
-      console.log("Ceci est la description de nouvelle task: "+newTask.description);
-      console.log("Ceci est le status de nouvelle task: "+newTask.status);
-     
       setRefreshPosition(prev => prev + 1);  // Forcer le reload de position des taches
       setRefreshStats((prev) => prev + 1); // ✅ actualise les stats
 
@@ -101,7 +85,6 @@ export default function TasksPage({ session }: { session: any }) {
       console.error("Erreur lors de l'ajout :", error);
     }
   }
-
   async function handleDelete (id : string) {
     try {
       await deleteTask(id);
@@ -117,7 +100,6 @@ export default function TasksPage({ session }: { session: any }) {
   return (
     <div className=" flex flex-col md:flex-row">
       <div className="flex-1 border-b-2">
-        <div className="flex">
           <div className="flex items-center gap-2 m-4 " >
             {/* Formulaire d'ajout */}
             <form onSubmit={handleSubmit} className="flex items-center gap-2 flex-grow max-w-[70%]">
@@ -129,15 +111,11 @@ export default function TasksPage({ session }: { session: any }) {
                 required
                 className = "flex-grow p-2 border border-border rounded-xl bg-card text-card-foreground shadow w-80"
               />
-              {/*<button type="submit">➕ Ajouter</button>*/}
+              <button type="submit"> <Plus className="w-6 h-6 text-blue-500" /></button>
             </form>
-            <button onClick={() => {handleSubmit}}>
-                  <Plus className="w-6 h-6 text-blue-500" />
-            </button>
           </div>
          
           
-        </div>
         <div className="flex">
           <div className="flex-1 m-4">
                 <Card className="border border-border rounded-xl bg-card text-card-foreground shadow ">
