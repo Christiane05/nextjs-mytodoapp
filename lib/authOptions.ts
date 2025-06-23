@@ -1,9 +1,8 @@
-import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { db } from "@vercel/postgres";
 import type { NextAuthOptions } from "next-auth";
 
-const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -11,7 +10,6 @@ const authOptions: NextAuthOptions = {
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
-
   events: {
     async signIn({ user }) {
       try {
@@ -22,16 +20,10 @@ const authOptions: NextAuthOptions = {
             INSERT INTO users (email, name)
             VALUES (${user.email}, ${user.name})
           `;
-          console.log("✅ Nouvel utilisateur ajouté :", user.email);
         }
       } catch (err) {
-        console.error("❌ Erreur lors de l'enregistrement de l'utilisateur :", err);
+        console.error("❌ Erreur DB signIn:", err);
       }
     },
   },
 };
-
-// Handler NextAuth
-const handler = NextAuth(authOptions);
-
-export { handler as GET, handler as POST };
