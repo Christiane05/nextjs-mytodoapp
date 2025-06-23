@@ -1,7 +1,7 @@
 "use client"
 
-import PieChart from "../../horizon-tailwind-react/src/components/charts/PieChart"; 
-import {pieChartData, pieChartOptions} from "../../horizon-tailwind-react/src/variables/charts";
+import PieChart from "../ui/piechart"; 
+import {pieChartData, pieChartOptions} from "../../lib/variables/charts";
 
  
 export default function Chart() {
