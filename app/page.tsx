@@ -1,7 +1,7 @@
 //"use client"
 import './globals.css'; // Vérifie que c'est bien ce fichier où tu as les directives Tailwind
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "./api/auth/[...nextauth]/route";
+import { authOptions } from "./../lib/authOptions";
 import { redirect } from "next/navigation";
 import Dashboard from "@/components/ui/dashboard";
 
