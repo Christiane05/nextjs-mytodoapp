@@ -2,8 +2,8 @@
 
 import * as React from "react"
 import ClientOnly from "@/components/ui/clientonly"; 
-import PieChart from "@/horizon-tailwind-react/src/components/charts/PieChart"; 
-import {pieChartData, pieChartOptions} from "@/horizon-tailwind-react/src/variables/charts";
+import PieChart from "../ui/piechart"; 
+import {pieChartData, pieChartOptions} from "../../lib/variables/charts";
 
 type Stats = {
   done: number
@@ -22,7 +22,6 @@ const StatsTest = React.forwardRef<HTMLDivElement, StatsTestProps>(
      React.useEffect(() => {
       const fetchStats = async () => {
         try {
-          //const res = await fetch("/api/tasks/stats")
           const res = await fetch(`/api/tasks/stats?refresh=${Date.now()}`, {
             cache: "no-store",
           });
