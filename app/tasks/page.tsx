@@ -13,7 +13,7 @@ import '../globals.css';
 import TestDragAndDrop from "@/components/ui/testdraganddrop";
 import { Plus } from "lucide-react";
 
-export default function TasksPage({ session }: { session: any }) {
+export default function TasksPage() {
   const [tasks, setTasks] = useState<Task[]>([]); // Liste des tâches
 
   //Voici un état local pour la tache en cours de modification 
