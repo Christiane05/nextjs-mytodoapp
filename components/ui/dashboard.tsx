@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import TasksPage from "@/app/tasks/page";
-import PieChart from "@/horizon-tailwind-react/src/components/charts/PieChart";
+import PieChart from "@/components/ui/piechart";
 import { StatsTest } from "@/components/ui/stats";
 import LogoutButton from "@/components/ui/logoutbutton";
 import { Menu } from "@/components/ui/menu";
@@ -20,7 +20,8 @@ export default function Dashboard({ session }: { session: any }) {
         
       </div>
       <div className="w-full m-2 p-20 ">
-        <TasksPage session={session}/>
+       {/*<TasksPage session={session}/>*/}
+       <TasksPage/> 
       </div>
       
       <footer className="text-sm text-gray-500 text-center mt-10 pb-4">
