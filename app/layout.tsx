@@ -20,6 +20,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Ma to do application",
   description: "Ta feuille de to do list",
+  verification: {
+    google: "IEEP5WnX5KiWuuIAtd1cSsIrmXPN28gXLV8Lan96XLI",
+  },
  
 };
 
