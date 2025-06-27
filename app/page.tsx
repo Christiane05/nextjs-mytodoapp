@@ -10,12 +10,16 @@ import Dashboard from "@/components/ui/dashboard";
 export default async function Home() {
   //const [refreshStats, setRefreshStats] = useState(0);
 
-   const session = await getServerSession(authOptions);
+  // const session = await getServerSession(authOptions);
 
-  if (!session) {
+ // if (!session) {
      // Redirige vers la page de login si pas connecté
-    redirect("/login");
-  }
+   // redirect("/login");
+
+ // }
   
-  return <Dashboard session={session} />;
+  return 
+    //<Dashboard session={session} />;
+    
+  
 }
