@@ -1,10 +1,10 @@
-{\rtf1\fbidis\ansi\ansicpg1252\deff0\nouicompat\deflang1036{\fonttbl{\f0\fnil\fcharset0 Courier New;}{\f1\fnil Courier New;}{\f2\fnil\fcharset1 Segoe UI Symbol;}{\f3\fnil\fcharset1 Segoe UI Symbol;}{\f4\fnil\fcharset1 Segoe UI Emoji;}{\f5\fnil\fcharset0 Segoe UI Emoji;}{\f6\fnil\fcharset2 Symbol;}}
+{\rtf1\fbidis\ansi\ansicpg1252\deff0\nouicompat\deflang1036{\fonttbl{\f0\fnil\fcharset0 Courier New;}{\f1\fnil Courier New;}{\f2\fnil\fcharset1 Segoe UI Symbol;}{\f3\fnil\fcharset1 Segoe UI Symbol;}{\f4\fnil\fcharset1 Segoe UI Emoji;}{\f5\fnil\fcharset2 Symbol;}}
 {\colortbl ;\red0\green0\blue255;\red128\green128\blue128;\red255\green0\blue0;\red0\green0\blue0;\red0\green255\blue0;\red255\green255\blue0;}
 {\*\generator Riched20 10.0.19041}\viewkind4\uc1 
 \pard\f0\fs52 La s\'e9curit\'e9 sur nextjs\fs22\par
 \par
 
-\pard{\pntext\f6\'B7\tab}{\*\pn\pnlvlblt\pnf6\pnindent0{\pntxtb\'B7}}\fi-360\li720\b Tainting : \b0 Emp\'eache que des donn\'e9es sensibles se retrouvent c\'f4t\'e9 client (dans le navigateur), en "marquant" certains objets comme sensibles (= tainting) pour que Next.js ou toi-m\'eame sachiez ne jamais les exposer dans du rendu c\'f4t\'e9 client.\par
+\pard{\pntext\f5\'B7\tab}{\*\pn\pnlvlblt\pnf5\pnindent0{\pntxtb\'B7}}\fi-360\li720\b Tainting : \b0 Emp\'eache que des donn\'e9es sensibles se retrouvent c\'f4t\'e9 client (dans le navigateur), en "marquant" certains objets comme sensibles (= tainting) pour que Next.js ou toi-m\'eame sachiez ne jamais les exposer dans du rendu c\'f4t\'e9 client.\par
 
 \pard\par
 Exemple: \line Imaginons que tu as un tableau de t\'e2ches, chaque t\'e2che appartient \'e0 un utilisateur.\par
@@ -49049,7 +49049,7 @@ fff7efffffffcee7de8c8c8cefefe7ffffff949c9c313939313939394242212929393939292929
 \pard\par
 \b\par
 
-\pard{\pntext\f6\'B7\tab}{\*\pn\pnlvlblt\pnf6\pnindent0{\pntxtb\'B7}}\fi-360\li720 Server actions\b0  : V\'e9rifie que seuls les utilisateurs autoris\'e9s peuvent appeler tes Server Actions, et lis bien les pratiques de s\'e9curit\'e9 recommand\'e9es\line\line Toujours v\'e9rifier qui appelle (via\b  session\b0 , \b auth\b0 , \b cookies\b0 , etc.) dans tes Server Actions :\par
+\pard{\pntext\f5\'B7\tab}{\*\pn\pnlvlblt\pnf5\pnindent0{\pntxtb\'B7}}\fi-360\li720 Server actions\b0  : V\'e9rifie que seuls les utilisateurs autoris\'e9s peuvent appeler tes Server Actions, et lis bien les pratiques de s\'e9curit\'e9 recommand\'e9es\line\line Toujours v\'e9rifier qui appelle (via\b  session\b0 , \b auth\b0 , \b cookies\b0 , etc.) dans tes Server Actions :\par
 
 \pard\sl240\slmult1{\pict{\*\picprop}\wmetafile8\picw19923\pich4948\picwgoal8640\pichgoal2145 
 010009000003b839030000008f39030000000400000003010800050000000b0200000000050000
@@ -59899,7 +59899,7 @@ Ne jamais faire confiance au client : m\'eame si ton UI ne montre pas un bouton,
 \pard\b\par
 \par
 
-\pard{\pntext\f6\'B7\tab}{\*\pn\pnlvlblt\pnf6\pnindent0{\pntxtb\'B7}}\fi-360\li720 Les donn\'e9es sensibles:\b0  Les donn\'e9es sensibles tel que \par
+\pard{\pntext\f5\'B7\tab}{\*\pn\pnlvlblt\pnf5\pnindent0{\pntxtb\'B7}}\fi-360\li720 Les donn\'e9es sensibles:\b0  Les donn\'e9es sensibles tel que \par
 
 \pard\line SECRET_KEY=xxxsupersecret\par
 NEXT_PUBLIC_API_URL={{\field{\*\fldinst{HYPERLINK https://monapi.com }}{\fldrslt{https://monapi.com\ul0\cf0}}}}\f0\fs22\line\par
@@ -59909,7 +59909,7 @@ Les variables commen\'e7ant par NEXT_PUBLIC_ sont visibles c\'f4t\'e9 client (da
 Ceux l\'e0 se situent dans \b .env.local \b0 et ne doivent jamais \'eatre pouss\'e9 vers Git. Pour se faire, il faut bien v\'e9rifier qu'ils sont bien inscrit dans \b .gitignore\b0  sous forme de \b .env*. \line .gitignore : \b0 permet que l'on ne pousse pas au git, les fichiers qui y sont inscrits. \par
 \par
 
-\pard{\pntext\f6\'B7\tab}{\*\pn\pnlvlblt\pnf6\pnindent0{\pntxtb\'B7}}\fi-360\li720\b CSP ou Content Security Policy : \b0 La politique de s\'e9curit\'e9 du contenu : permet que si un \b scrip lambda\b0  arrive de nulle part (fr\'e9quemment les \b XSS Cross Site Scripting \b0 et les \b codes inject\'e9s\b0 )\line Cela se fait en ajoutant se bout de code au \b next.config.js\b0  par exemple : \line\line\highlight2 Content-Security-Policy: default-src 'self'; script-src 'self' {{\field{\*\fldinst{HYPERLINK https://apis.google.com }}{\fldrslt{https://apis.google.com\ul0\cf0}}}}\f0\fs22\line\line\highlight0 Cela signifie que seul \b mon code\b0  : \b self \b0 et l'\b API Google\b0  est autoris\'e9 \'e0 \'eatre ex\'e9cut\'e9. \par
+\pard{\pntext\f5\'B7\tab}{\*\pn\pnlvlblt\pnf5\pnindent0{\pntxtb\'B7}}\fi-360\li720\b CSP ou Content Security Policy : \b0 La politique de s\'e9curit\'e9 du contenu : permet que si un \b scrip lambda\b0  arrive de nulle part (fr\'e9quemment les \b XSS Cross Site Scripting \b0 et les \b codes inject\'e9s\b0 )\line Cela se fait en ajoutant se bout de code au \b next.config.js\b0  par exemple : \line\line\highlight2 Content-Security-Policy: default-src 'self'; script-src 'self' {{\field{\*\fldinst{HYPERLINK https://apis.google.com }}{\fldrslt{https://apis.google.com\ul0\cf0}}}}\f0\fs22\line\line\highlight0 Cela signifie que seul \b mon code\b0  : \b self \b0 et l'\b API Google\b0  est autoris\'e9 \'e0 \'eatre ex\'e9cut\'e9. \par
 
 \pard\sl240\slmult1{\pict{\*\picprop}\wmetafile8\picw20373\pich10821\picwgoal8640\pichgoal4590 
 0100090000032e37070000000537070000000400000003010800050000000b0200000000050000
@@ -84198,6 +84198,8 @@ Par contre, on peut le \b forcer \'e0 l'executer\b0 , en utilisant la balise \cf
 \par
 Attends quelques secondes\f1\'85\f0\par
 \par
-\f4\u10145?\u-497? Si tout est bon, tu verras un message de succ\f5\'e8s : ton site est d\'e9sormais valid\'e9 !\f0\par
+\f4\u10145?\u-497? \f0 Si tout est bon, tu verras un message de succ\'e8s : ton site est d\'e9sormais valid\'e9 !\par
+\par
+3.\tab\par
 }
  
