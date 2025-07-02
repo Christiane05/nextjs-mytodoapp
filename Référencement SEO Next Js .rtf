@@ -1,10 +1,10 @@
-{\rtf1\fbidis\ansi\ansicpg1252\deff0\nouicompat\deflang1036{\fonttbl{\f0\fnil\fcharset0 Courier New;}{\f1\fnil Courier New;}{\f2\fnil\fcharset1 Segoe UI Symbol;}{\f3\fnil\fcharset1 Segoe UI Symbol;}{\f4\fnil\fcharset1 Segoe UI Emoji;}{\f5\fnil\fcharset2 Symbol;}}
-{\colortbl ;\red0\green0\blue255;\red128\green128\blue128;\red255\green0\blue0;\red0\green0\blue0;\red0\green255\blue0;\red255\green255\blue0;}
+{\rtf1\fbidis\ansi\ansicpg1252\deff0\nouicompat\deflang1036{\fonttbl{\f0\fnil\fcharset0 Courier New;}{\f1\fnil Courier New;}{\f2\fnil\fcharset1 Segoe UI Symbol;}{\f3\fnil\fcharset1 Segoe UI Symbol;}{\f4\fnil\fcharset1 Segoe UI Emoji;}{\f5\fnil Segoe UI Emoji;}{\f6\fnil\fcharset2 Symbol;}}
+{\colortbl ;\red0\green0\blue255;\red128\green128\blue128;\red255\green0\blue0;\red0\green0\blue0;\red0\green255\blue0;\red255\green255\blue0;\red128\green100\blue162;\red192\green192\blue192;\red0\green176\blue80;\red0\green255\blue255;}
 {\*\generator Riched20 10.0.19041}\viewkind4\uc1 
 \pard\f0\fs52 La s\'e9curit\'e9 sur nextjs\fs22\par
 \par
 
-\pard{\pntext\f5\'B7\tab}{\*\pn\pnlvlblt\pnf5\pnindent0{\pntxtb\'B7}}\fi-360\li720\b Tainting : \b0 Emp\'eache que des donn\'e9es sensibles se retrouvent c\'f4t\'e9 client (dans le navigateur), en "marquant" certains objets comme sensibles (= tainting) pour que Next.js ou toi-m\'eame sachiez ne jamais les exposer dans du rendu c\'f4t\'e9 client.\par
+\pard{\pntext\f6\'B7\tab}{\*\pn\pnlvlblt\pnf6\pnindent0{\pntxtb\'B7}}\fi-360\li720\b Tainting : \b0 Emp\'eache que des donn\'e9es sensibles se retrouvent c\'f4t\'e9 client (dans le navigateur), en "marquant" certains objets comme sensibles (= tainting) pour que Next.js ou toi-m\'eame sachiez ne jamais les exposer dans du rendu c\'f4t\'e9 client.\par
 
 \pard\par
 Exemple: \line Imaginons que tu as un tableau de t\'e2ches, chaque t\'e2che appartient \'e0 un utilisateur.\par
@@ -49049,7 +49049,7 @@ fff7efffffffcee7de8c8c8cefefe7ffffff949c9c313939313939394242212929393939292929
 \pard\par
 \b\par
 
-\pard{\pntext\f5\'B7\tab}{\*\pn\pnlvlblt\pnf5\pnindent0{\pntxtb\'B7}}\fi-360\li720 Server actions\b0  : V\'e9rifie que seuls les utilisateurs autoris\'e9s peuvent appeler tes Server Actions, et lis bien les pratiques de s\'e9curit\'e9 recommand\'e9es\line\line Toujours v\'e9rifier qui appelle (via\b  session\b0 , \b auth\b0 , \b cookies\b0 , etc.) dans tes Server Actions :\par
+\pard{\pntext\f6\'B7\tab}{\*\pn\pnlvlblt\pnf6\pnindent0{\pntxtb\'B7}}\fi-360\li720 Server actions\b0  : V\'e9rifie que seuls les utilisateurs autoris\'e9s peuvent appeler tes Server Actions, et lis bien les pratiques de s\'e9curit\'e9 recommand\'e9es\line\line Toujours v\'e9rifier qui appelle (via\b  session\b0 , \b auth\b0 , \b cookies\b0 , etc.) dans tes Server Actions :\par
 
 \pard\sl240\slmult1{\pict{\*\picprop}\wmetafile8\picw19923\pich4948\picwgoal8640\pichgoal2145 
 010009000003b839030000008f39030000000400000003010800050000000b0200000000050000
@@ -59899,7 +59899,7 @@ Ne jamais faire confiance au client : m\'eame si ton UI ne montre pas un bouton,
 \pard\b\par
 \par
 
-\pard{\pntext\f5\'B7\tab}{\*\pn\pnlvlblt\pnf5\pnindent0{\pntxtb\'B7}}\fi-360\li720 Les donn\'e9es sensibles:\b0  Les donn\'e9es sensibles tel que \par
+\pard{\pntext\f6\'B7\tab}{\*\pn\pnlvlblt\pnf6\pnindent0{\pntxtb\'B7}}\fi-360\li720 Les donn\'e9es sensibles:\b0  Les donn\'e9es sensibles tel que \par
 
 \pard\line SECRET_KEY=xxxsupersecret\par
 NEXT_PUBLIC_API_URL={{\field{\*\fldinst{HYPERLINK https://monapi.com }}{\fldrslt{https://monapi.com\ul0\cf0}}}}\f0\fs22\line\par
@@ -59909,7 +59909,7 @@ Les variables commen\'e7ant par NEXT_PUBLIC_ sont visibles c\'f4t\'e9 client (da
 Ceux l\'e0 se situent dans \b .env.local \b0 et ne doivent jamais \'eatre pouss\'e9 vers Git. Pour se faire, il faut bien v\'e9rifier qu'ils sont bien inscrit dans \b .gitignore\b0  sous forme de \b .env*. \line .gitignore : \b0 permet que l'on ne pousse pas au git, les fichiers qui y sont inscrits. \par
 \par
 
-\pard{\pntext\f5\'B7\tab}{\*\pn\pnlvlblt\pnf5\pnindent0{\pntxtb\'B7}}\fi-360\li720\b CSP ou Content Security Policy : \b0 La politique de s\'e9curit\'e9 du contenu : permet que si un \b scrip lambda\b0  arrive de nulle part (fr\'e9quemment les \b XSS Cross Site Scripting \b0 et les \b codes inject\'e9s\b0 )\line Cela se fait en ajoutant se bout de code au \b next.config.js\b0  par exemple : \line\line\highlight2 Content-Security-Policy: default-src 'self'; script-src 'self' {{\field{\*\fldinst{HYPERLINK https://apis.google.com }}{\fldrslt{https://apis.google.com\ul0\cf0}}}}\f0\fs22\line\line\highlight0 Cela signifie que seul \b mon code\b0  : \b self \b0 et l'\b API Google\b0  est autoris\'e9 \'e0 \'eatre ex\'e9cut\'e9. \par
+\pard{\pntext\f6\'B7\tab}{\*\pn\pnlvlblt\pnf6\pnindent0{\pntxtb\'B7}}\fi-360\li720\b CSP ou Content Security Policy : \b0 La politique de s\'e9curit\'e9 du contenu : permet que si un \b scrip lambda\b0  arrive de nulle part (fr\'e9quemment les \b XSS Cross Site Scripting \b0 et les \b codes inject\'e9s\b0 )\line Cela se fait en ajoutant se bout de code au \b next.config.js\b0  par exemple : \line\line\highlight2 Content-Security-Policy: default-src 'self'; script-src 'self' {{\field{\*\fldinst{HYPERLINK https://apis.google.com }}{\fldrslt{https://apis.google.com\ul0\cf0}}}}\f0\fs22\line\line\highlight0 Cela signifie que seul \b mon code\b0  : \b self \b0 et l'\b API Google\b0  est autoris\'e9 \'e0 \'eatre ex\'e9cut\'e9. \par
 
 \pard\sl240\slmult1{\pict{\*\picprop}\wmetafile8\picw20373\pich10821\picwgoal8640\pichgoal4590 
 0100090000032e37070000000537070000000400000003010800050000000b0200000000050000
@@ -84194,12 +84194,137 @@ Par contre, on peut le \b forcer \'e0 l'executer\b0 , en utilisant la balise \cf
 \par
 \highlight0 2.\tab Aller sur : {{\field{\*\fldinst{HYPERLINK https://search.google.com/search-console/ }}{\fldrslt{https://search.google.com/search-console/\ul0\cf0}}}}\f0\fs22\par
 \highlight2\par
-\highlight0 Clique sur "V\'e9rifier"\par
+\highlight0 Clique sur "\highlight5 V\'e9rifier\highlight0 "\par
 \par
 Attends quelques secondes\f1\'85\f0\par
 \par
-\f4\u10145?\u-497? \f0 Si tout est bon, tu verras un message de succ\'e8s : ton site est d\'e9sormais valid\'e9 !\par
+\f4\u10145?\u-497?\f5  \f0 Si tout est bon, tu verras un message de succ\'e8s : ton site est d\'e9sormais valid\'e9 !\par
 \par
-3.\tab\par
+\highlight3 ATTENTION A PRENDRE EN COMPTE :\par
+\highlight0 GSC ne fonctionne pas lorsqu'on met une authentification avant d'acc\'e9der au contenue de l'URL \'e0 v\'e9rifier. \line Et \highlight3 ATTENTION \highlight0 car avec Vercel, il y a un syst\'e8me de protection , donc d'authentification lorsqu'on utilise les noms de domaines qu'ils nous fournissent au pr\'e9alable. Pour d\'e9sactiver cette authentification, il faut aller dans : \line\line Vercel \line Aller dans le projet Vercel \line Settings (barre en haut) \line Deployement protection \line Mettre en Disable le Vercel Authentification. \par
+\par
+\par
+\b\f2\fs36\u9989? \f0\'c9tapes pour faire le SEO dans Next.js App Router\par
+\b0\fs22\par
+\cf7\b\fs32 1. \cf0\b0\fs22 Ajoute les \b m\'e9tadonn\'e9es \b0 dans app/landingpage/page.tsx\par
+Chaque page peut exporter une constante metadata, par exemple :\par
+\par
+tsx\par
+// app/landingpage/page.tsx\par
+\par
+\highlight8 export const metadata = \{\par
+  title: "Organise ta journ\'e9e avec Ma To-Do App",\par
+  description: "Une application simple et efficace pour g\'e9rer ta liste de t\'e2ches quotidienne.",\par
+  keywords: ["to-do list", "productivit\'e9", "application t\'e2ches", "organisateur"],\par
+  openGraph: \{\par
+    title: "Ma To-Do App",\par
+    description: "Simplifie ta vie avec une to-do liste intuitive.",\par
+    url: "{{\field{\*\fldinst{HYPERLINK https://nextjs-mytodoapp.vercel.app }}{\fldrslt{https://nextjs-mytodoapp.vercel.app\ul0\cf0}}}}\f0\fs22 ",\par
+    siteName: "Ma To-Do App",\par
+    images: [\par
+      \{\par
+        url: "/og-image.png",\par
+        width: 1200,\par
+        height: 630,\par
+        alt: "Aper\'e7u de Ma To-Do App",\par
+      \},\par
+    ],\par
+    locale: "fr_FR",\par
+    type: "website",\par
+  \},\par
+  robots: \{\par
+    index: true,\par
+    follow: true,\par
+  \},\par
+\};\par
+\par
+\highlight0\f3\u-10179?\u-9055?\f1  \f0 Tu peux aussi mettre des m\'e9tadonn\'e9es g\'e9n\'e9rales dans \b layout.tsx\b0 .\par
+\par
+\cf7\fs32 2. \cf0\fs22 Ajoute une image d\f1\rquote\f0 aper\'e7u (og:image)\par
+Place un fichier image dans \b public/og-image.png (1200x630 recommand\'e9)\par
+\b0\par
+Google, Facebook, etc., l\f1\rquote\f0 utiliseront pour l\f1\rquote\f0 aper\'e7u du lien\par
+\par
+\cf7\fs32 3. \cf0\fs22 Assure-toi que la page est \cf3\b accessible sans authentification\par
+\cf0\b0\par
+\f4\u10145?\u-497? \f0 La page \cf9\b landingpage doit \'eatre publique \cf0\b0 pour que Googlebot puisse la voir.\par
+\par
+\cf7\fs32 4. \cf0\fs22 Ajoute un \b sitemap.xml \b0 et \b robots.txt\b0\par
+Tu peux le faire avec la lib next-sitemap :\par
+bash\par
+\highlight8 npm install \b next-sitemap\b0\par
+\par
+\par
+\highlight0 Puis cr\'e9e un fichier \b next-sitemap.config.js \b0 :\par
+js\par
+\highlight8 /** @type \{import('next-sitemap').IConfig\} */\par
+module.exports = \{\par
+  siteUrl: 'https://nextjs-mytodoapp.vercel.app',\par
+  generateRobotsTxt: true,\par
+  sitemapSize: 7000,\par
+\};\par
+\par
+\highlight0 Et ajoute \'e7a dans \b package.json :\par
+\par
+\b0 json\par
+\highlight8 "scripts": \{\par
+  "postbuild": "next-sitemap"\par
+\}\par
+\par
+\cf7\highlight0\fs32 5. \cf0\fs22 Audit avec Lighthouse (dans Chrome)\par
+Tu peux v\'e9rifier :\par
+\par
+SEO \f2\u9989?\f0\par
+Accessibilit\'e9 \f2\u9989?\f0\par
+Performance \f2\u9989?\f1  \par
+\par
+\f0\par
+ -------------------- |\par
+| `\b title\b0 `| Titre dans Google et navigateur  |\f2\u9989?\f1  \highlight5\f0 Tr\'e8s fort\highlight0      \par
+| `\b description\b0 `| Texte sous le titre Google | \f2\u9989?\highlight5\f1  \f0 Fort              \highlight0\par
+| `\b keywords\b0 `| Ancienne pratique (optionnel) |\f4\u9888?\u-497? \highlight6\f0 Tr\'e8s faible\highlight0\par
+| `\b openGraph.*\b0 `| Partage sur r\'e9seaux sociaux| \f2\u9989?\highlight5\f1  \f0 Fort visuel    \highlight0\par
+| `\b robots.index\b0 `, `\b follow\b0 `| Contr\'f4le l\f1\rquote\f0 indexation et le suivi par Googlebot \tab\tab\tab\tab\tab\tab   | \f2\u9989?\f1  \highlight10\f0 Essentiel|\par
+\par
+\par
+\fs32\par
+\highlight0\f2\u9989?\f1  \f0\'c9tapes pour g\'e9n\'e9rer ton \b sitemap.xml \b0 avec Next.js\par
+\fs22\par
+\par
+\b 1. \b0 Installer la librairie\par
+Dans ton terminal, ex\'e9cute :\par
+\par
+\highlight8 npm install next-sitemap\par
+\highlight0\par
+\b 2. \b0 Cr\'e9er le fichier de config \b next-sitemap.config.js \b0\'e0 la racine du projet\par
+\par
+\highlight8 // next-sitemap.config.js\par
+/** @type \{import('next-sitemap').IConfig\} */\par
+module.exports = \{\par
+  siteUrl: '{{\field{\*\fldinst{HYPERLINK https://nextjs-mytodoapp.vercel.app }}{\fldrslt{https://nextjs-mytodoapp.vercel.app\ul0\cf0}}}}\f0\fs22 ', // Remplace par ton URL publique d\'e9finitive si tu en as une plus propre\par
+  generateRobotsTxt: true, // G\'e9n\'e8re aussi le fichier robots.txt\par
+  sitemapSize: 7000, // Nombre max d'URLs par fichier sitemap (par d\'e9faut 5000)\par
+  exclude: ["/tasks"], // (facultatif) pages \'e0 exclure du sitemap si elles n\'e9cessitent login\par
+\};\par
+\par
+\highlight0\f3\u-10179?\u-8959?\f1  \f0 Tu peux ajouter ici toutes les pages prot\'e9g\'e9es par session (comme /tasks) pour ne pas les exposer.\par
+\par
+\b 3. \b0 Ajouter un script dans \b package.json\b0\par
+\highlight8\{\par
+  "scripts": \{\par
+    "postbuild": "next-sitemap"\par
+  \}\par
+\}\par
+\highlight0\f3\u-10179?\u-9055?\f1  \f0\'c7a permet de \cf9\b g\'e9n\'e9rer automatiquement le sitemap.xml et robots.txt\cf0\b0  juste apr\'e8s next build.\par
+\par
+\b 4. \b0 Faire un build\par
+Dans ton terminal :\par
+\par
+\highlight8 npm run build\par
+\par
+\highlight0 Tu verras appara\'eetre :\par
+\par
+\b public/sitemap.xml\par
+public/robots.txt\par
 }
  

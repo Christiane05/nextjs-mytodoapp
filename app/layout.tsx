@@ -19,10 +19,28 @@ const geistMono = Geist_Mono({
 
 
 export const metadata: Metadata = {
-  title: "Ma to do application",
-  description: "Ta feuille de to do list",
-  verification: {
-    google: "IEEP5WnX5KiWuuIAtd1cSsIrmXPN28gXLV8Lan96XLI",
+ title: "Ma To-Do App ton application de productivité",
+  description: "Une application simple et efficace pour gérer ta liste de tâches quotidienne.",
+  keywords: ["to-do list", "productivité", "application tâches", "graphique", "statistique"],
+  openGraph: {
+    title: "Ma To-Do App",
+    description: "Visualise ta productivité avec une to-do liste intuitive.",
+    url: "https://nextjs-mytodoapp.vercel.app",
+    siteName: "Ma To-Do App",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Aperçu de Ma To-Do App",
+      },
+    ],
+    locale: "fr_FR",
+    type: "website",
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
  
 };
