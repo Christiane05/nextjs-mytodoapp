@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://nextjs-mytodoapp-5dpyga0et-christianes-projects-478caaf8.vercel.app
+Host: https://nextjs-mytodoapp.vercel.app
 
 # Sitemaps
-Sitemap: https://nextjs-mytodoapp-5dpyga0et-christianes-projects-478caaf8.vercel.app/sitemap.xml
+Sitemap: https://nextjs-mytodoapp.vercel.app/sitemap.xml
